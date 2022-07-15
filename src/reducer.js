@@ -26,12 +26,14 @@ const initState = {
 const reducer = (state=initState,action) => {
     switch(action.type){
         case 'DELETE_POST':
-        const { id } = action.payload;
-        let newPosts =state.posts.filter(post=> post.id !== id);
+            const { id } = action.payload;
+            let newPosts =state.posts.filter(post=> post.id !== id);
       
-        return {...state, posts: [...newPosts] }
+             return {...state, posts: [...newPosts] }
     
         case 'ADD_POST':
+            return state.concat(action.payload)
+
         case 'UPDATE_POST':
         default:
             return state

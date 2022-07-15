@@ -1,20 +1,21 @@
 import {ActionTypes} from './ActionTypes'
 
-export const createPost = (name,url) => {
+export const createPost = () => {
 return{
     type: ActionTypes.CREATE_POST,
-    payload: name,url
+    payload: {name:'',url: ''}
 }};
 
 
-export const updatePost = (name,url) => {
+export const updatePost = () => {
     return{
         type: ActionTypes.UPDATE_POST,
-        payload: name,url
+        payload: {name: "",
+                url: ""}
     }};
 
-export const deletePost = (id) => {
+export const deletePost = () => {
     return{
         type: ActionTypes.DELETE_POST,
-        payload: {id:id}
+        payload: {id:""}
     }};
