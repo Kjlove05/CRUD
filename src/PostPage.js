@@ -1,47 +1,108 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {deletePost} from './actions'
+import {deletePost,createPost,updatePost} from './actions'
 
+class Update extends Component {
+    post = this.props.post
 
-
-
-class PostPage extends Component {
-   
-    handleDelete= () =>{
-       
-        this.props.deletePost(this.props.id);
-        
-        
+    
+    state ={
+        updateName:'',
+        updateUrl:''
     }
-    render(){
-        console.log(this.props)
-        const {posts} = this.props
-        const postList = posts.length ? (
-            posts.map(post => {
+
+    handleUpdateName = (e) => {
+        this.setState({
+            updateName: e.target.value
+    })}
+    handleUpdateUrl =(e) => {
+        this.setState({
+            updateUrl: e.target.value
+        })
+    }
+    handleUpdate = (names,urls,ids) => {
+        this.props.updatePost(names,urls,ids)
+        this.setState({
+            updateName:'',
+            updateUrl:''
+        })
+       
+
+    }
+    handleDelete= (id) =>{
+        this.props.deletePost(id);   
+    }
+
+
+render(){
                 return(
-                    <div className="post card" key={post.id}>
+                    <div className="post card" key={this.post.id}>
                         <div className="card-content">
-                        <Link to={'/' + post.id}>
-                            <span className="card-title red-text">{post.name}</span>
-                            </Link>
-                            <p>{post.url}</p>
-                            <button key={post.id}className="btn red" onClick={() =>{this.handleDelete(post.id)}}>
+                            <span className="card-title red-text">{this.post.name}</span>
+                            <p>{this.post.url}</p>
+                            <button key={this.post.id}className="btn red" onClick={() =>{
+                                 console.log(this.post.id)
+                                 this.handleDelete(this.post.id)}}>
                                  Delete Post
                             </button>
-                            <button className="btn blue" onClick={this.handleChange}>
+                            <div>
+                                <input type='text' placeholder="Name..." value={this.state.updateName} onChange= {this.handleUpdateUrl}/>
+                                <input type='text' placeholder="Url..." value={this.state.updateUrl} onChange={this.handleUpdateUrl}/>
+                             </div>
+                            <button key={this.post.id} className="btn blue" onClick={()=>{
+                            console.log(this.post.id)
+                            this.handleUpdate(this.state.updateName,this.state.updateUrl,this.post.id)}}>
                                  Update Post
                             </button>
                 
                         </div>
                     </div>
                 )
-            })
-        ) : (
+                            }}
+     
+
+
+
+
+class PostPage extends Component {
+    state = {
+        newName:'',
+        newUrl:'',
+      
+    }
+
+    handleAdd= (name,url) =>{
+        this.props.createPost(name,url);
+        this.setState({
+            newName:'',
+            newUrl:''
+        })
+       
+    }
+    handleName = (e) => {
+        this.setState({
+            newName: e.target.value
+    })}
+    handleUrl =(e) => {
+        this.setState({
+            newUrl: e.target.value
+        })
+    }
+
+
+    
+    render(){
+        console.log(this.props)
+        const {posts} = this.props
+        const postList = posts.length ? (
+            posts.map(post => 
+            <Update post={post}/>))
+                
+         : (
            <div className="center"> No posts yet</div> 
         )
-       
-     
+  
+      
             
     return(
         <div>
@@ -49,10 +110,10 @@ class PostPage extends Component {
                 {postList}
               
                 <div>
-                <input type='text' placeholder="Name..."/>
-                <input type='text' placeholder="Url..."/>
+                <input type='text' placeholder="Name..." value={this.state.newName} onChange={this.handleName} />
+                <input type='text' placeholder="Url..." value={this.state.newUrl} onChange={this.handleUrl}/>
                 </div>
-                <button className="btn green" onClick={this.handleClick}>
+                <button className="btn green"  onClick={()=>this.handleAdd(this.state.newName,this.state.newUrl)}  >
                        ADD POST
                 </button>
    
@@ -74,7 +135,10 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deletePost: (id)=> dispatch(deletePost(id))
+        deletePost: (id)=> dispatch(deletePost(id)),
+        createPost: (name,url) =>dispatch(createPost(name,url)),
+        updatePost: (names,urls,ids) =>dispatch(updatePost(names,urls,ids))
+
     }
 }
 export default connect(mapStateToProps ,mapDispatchToProps)(PostPage)
