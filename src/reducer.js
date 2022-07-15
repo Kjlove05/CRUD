@@ -31,7 +31,8 @@ const reducer = (state=initState,action) => {
       
         return {...state, posts: [...newPosts] }
     
-
+        case 'ADD_POST':
+        case 'UPDATE_POST':
         default:
             return state
   }
