@@ -32,8 +32,6 @@ const reducer = (state=initState,action) => {
              return {...state, posts: [...newPosts] }
     
         case 'ADD_POST':
-            return state.concat(action.payload)
-
         case 'UPDATE_POST':
         default:
             return state
