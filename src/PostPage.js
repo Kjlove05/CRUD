@@ -1,22 +1,17 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'   
-import {deletePost,updatePost,createPost} from './actions'
+import {Link} from 'react-router-dom'
+import {deletePost} from './actions'
 
 
 
 
 class PostPage extends Component {
-    handleClick = () =>{
-        
-    }
-    handleChange = () =>{
-        
-    }
+   
     handleDelete= () =>{
        
         this.props.deletePost(this.props.id);
-        this.props.history.push('/');
+        
         
     }
     render(){
